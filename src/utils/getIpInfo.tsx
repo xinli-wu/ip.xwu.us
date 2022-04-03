@@ -6,7 +6,7 @@ export const getIpInfo = () => {
   // const ipInfo = await fetch(`https://ipapi.co/${ip.ip}/json/`);
   // return await ipInfo.json();
 
-  return axios.get("https://ip.xwu.us/")
+  return axios.get("https://api.ip.xwu.us/")
     .then(response => response.data)
     .catch(error => console.error(error.message));
 };
