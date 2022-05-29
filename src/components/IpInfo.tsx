@@ -1,7 +1,7 @@
 import { Table, TableContainer, Tbody, Td, Tr } from '@chakra-ui/react';
 import React from 'react';
 
-export default function IpInfo({ ipInfo }: any) {
+export const IpInfo = ({ ipInfo }: any) => {
   const ipFullInfo = ipInfo.full;
   return (
     <>
@@ -29,4 +29,4 @@ export default function IpInfo({ ipInfo }: any) {
       </TableContainer>
     </>
   );
-}
+};

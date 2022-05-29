@@ -4,7 +4,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet';
-import IpInfo from '../components/IpInfo';
+import { useLocation } from 'react-router-dom';
+import { IpInfo } from '../components/IpInfo';
 import { getIpInfo } from '../utils/getIpInfo';
 import './Map.css';
 
@@ -17,12 +18,15 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 export const Map = () => {
   const [ipInfo, setIpInfo] = useState<any>(null);
+  const location = useLocation();
 
   useEffect(() => {
-    getIpInfo().then(data => {
-      setIpInfo(data);
-    });
-  }, []);
+    (async () => {
+      const ipDomain = location.pathname.replace('/', '');
+      const ipInfo = await getIpInfo(ipDomain);
+      setIpInfo(ipInfo);
+    })();
+  }, [location.pathname]);
 
 
   return (
