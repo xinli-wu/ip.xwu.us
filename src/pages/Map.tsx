@@ -30,7 +30,6 @@ export const Map = () => {
   }, [location.pathname]);
 
   const onSearchBtnClick = (curIpDomain: any) => {
-    console.log('onSearchBtnClick', curIpDomain);
     navigate(`../${curIpDomain}`, { replace: false });
   };
 
