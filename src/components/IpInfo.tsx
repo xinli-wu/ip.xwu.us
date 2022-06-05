@@ -1,4 +1,4 @@
-import { Search2Icon } from '@chakra-ui/icons';
+import { CopyIcon, Search2Icon } from '@chakra-ui/icons';
 import { FormControl, FormErrorMessage, HStack, IconButton, Input, Table, TableContainer, Tbody, Td, Tr } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
@@ -33,7 +33,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
                               </FormControl>
                             )}
                           </Field>
-                          <IconButton type='submit' size='sm' aria-label='Search' icon={<Search2Icon />} />
+                          <IconButton colorScheme='green' type='submit' size='sm' aria-label='Search' icon={<Search2Icon />} />
                         </HStack>
                       </Form>
                     )}
@@ -43,15 +43,30 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
             </Tr>
             <Tr>
               <Td>ISP</Td>
-              <Td isNumeric>{ipFullInfo.isp}<br />@{ipFullInfo.org}</Td>
+              <Td isNumeric>
+                <HStack style={{ float: 'right' }}>
+                  <div>{ipFullInfo.isp}<br />@{ipFullInfo.org}</div>
+                  <IconButton colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} />
+                </HStack>
+              </Td>
             </Tr>
             <Tr>
               <Td>latlng</Td>
-              <Td isNumeric>{ipFullInfo.latitude}, {ipFullInfo.longitude}</Td>
+              <Td isNumeric>
+                <HStack style={{ float: 'right' }}>
+                  <div>{ipFullInfo.latitude}, {ipFullInfo.longitude}</div>
+                  <IconButton colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} />
+                </HStack>
+              </Td>
             </Tr>
             <Tr>
               <Td>Location</Td>
-              <Td isNumeric>{ipFullInfo.city}, {ipFullInfo.region}, {ipFullInfo.country} ({ipFullInfo.country_code})</Td>
+              <Td isNumeric>
+                <HStack style={{ float: 'right' }}>
+                  <div>{ipFullInfo.city}, {ipFullInfo.region}, {ipFullInfo.country} ({ipFullInfo.country_code})</div>
+                  <IconButton colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} />
+                </HStack>
+              </Td>
             </Tr>
           </Tbody>
         </Table>
