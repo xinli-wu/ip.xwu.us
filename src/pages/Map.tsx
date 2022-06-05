@@ -38,7 +38,7 @@ export const Map = () => {
         />
         <Marker position={[ipInfo.full.latitude, ipInfo.full.longitude]}>
           <Tooltip direction="bottom" offset={[0, 45]} opacity={1} permanent>
-            <IpInfo ipInfo={ipInfo} />
+            <IpInfo ipInfo={ipInfo} style={{maxWidth: '100vw'}} />
           </Tooltip>
         </Marker>
       </MapContainer>

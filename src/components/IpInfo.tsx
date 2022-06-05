@@ -14,7 +14,7 @@ export const IpInfo = ({ ipInfo }: any) => {
             </Tr>
             <Tr>
               <Td>ISP</Td>
-              <Td isNumeric>{ipFullInfo.isp} @{ipFullInfo.org}</Td>
+              <Td isNumeric>{ipFullInfo.isp}<br />@{ipFullInfo.org}</Td>
             </Tr>
             <Tr>
               <Td>latlng</Td>
