@@ -36,6 +36,9 @@ const theme = extendTheme({
       '.chakra-alert!': {
         background: props.colorMode === 'dark' ? 'var(--chakra-colors-green-200)' : 'var(--chakra-colors-green-500)',
         color: props.colorMode === 'dark' ? 'var(--chakra-colors-gray-900)' : 'var(--chakra-colors-white)'
+      },
+      '.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar': {
+        border: '2px solid rgba(0,0,0,0)'
       }
     }),
   },
