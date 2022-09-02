@@ -70,7 +70,7 @@ export const MainMapContainer = () => {
           center={center}
           zoom={DEFAULT_ZOOM}
           doubleClickZoom={false}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
         >
           <Map ipInfo={ipInfo} />
           <div className='leaflet-top leaflet-right'>
