@@ -1,12 +1,14 @@
-import L, { LatLng } from 'leaflet';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { IconButton, useColorMode } from '@chakra-ui/react';
+import L, { LatLng, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, Tooltip, useMap } from 'react-leaflet';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { SvgIconTpl } from '../assets/icons/Icons';
 import { IpInfo } from '../components/IpInfo';
 import { getIpInfo } from '../utils/getIpInfo';
 import './MainMapContainer.css';
-import { SvgIconTpl } from '../assets/icons/Icons';
 
 const DEFAULT_ZOOM = 10;
 
@@ -23,8 +25,8 @@ export const Map = ({ ipInfo }: any) => {
   const map = useMap();
 
   const latlng = new LatLng(ipInfo.full.latitude, ipInfo.full.longitude);
-  const onSearchBtnClick = (curIpDomain: any) => {
-    navigate(`../${curIpDomain}`, { replace: false });
+  const onSearchBtnClick = (curIpDomain: string) => {
+    navigate(`/${curIpDomain}`, { replace: false });
   };
 
 
@@ -40,7 +42,7 @@ export const Map = ({ ipInfo }: any) => {
       />
       <Marker position={latlng}>
         <Tooltip direction="bottom" offset={[0, 5]} opacity={1} permanent interactive>
-          <IpInfo ipInfo={ipInfo} onSearchBtnClick={onSearchBtnClick} style={{ maxWidth: '100vw' }} />
+          <IpInfo maxWidth={300} maxHeight={600} ipInfo={ipInfo} onSearchBtnClick={onSearchBtnClick} style={{ maxWidth: '80vw' }} />
         </Tooltip>
       </Marker>
     </>
@@ -49,26 +51,38 @@ export const Map = ({ ipInfo }: any) => {
 
 export const MainMapContainer = () => {
   const [ipInfo, setIpInfo] = useState<any>(null);
-  const location = useLocation();
+  const { ipDomain } = useParams();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  const center: LatLngExpression = [ipInfo?.full?.latitude, ipInfo?.full?.longitude];
 
   useEffect(() => {
     (async () => {
-      const ipDomain = location.pathname.replace('/', '');
       const ipInfo = await getIpInfo(ipDomain);
       setIpInfo(ipInfo);
     })();
-  }, [location.pathname]);
+  }, [ipDomain]);
 
   return (
     <>
-      {ipInfo && ipInfo.ip &&
+      {ipInfo?.ip &&
         <MapContainer
-          center={[ipInfo.full.latitude, ipInfo.full.longitude]}
+          center={center}
           zoom={DEFAULT_ZOOM}
           doubleClickZoom={false}
           scrollWheelZoom={false}
         >
           <Map ipInfo={ipInfo} />
+          <div className='leaflet-top leaflet-right'>
+            <div className="leaflet-control leaflet-bar">
+              <IconButton
+                onClick={toggleColorMode}
+                isRound
+                aria-label='Switch Mode'
+                icon={colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+              />
+            </div>
+          </div>
         </MapContainer>
       }
     </>
