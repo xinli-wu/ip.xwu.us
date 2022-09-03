@@ -4,6 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isBrowser } from 'react-device-detect';
 
 export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
   const { full: fullIpInfo } = ipInfo;
@@ -13,7 +14,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
   const inputElement = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (inputElement.current) {
+    if (inputElement.current && isBrowser) {
       inputElement.current.focus();
     }
   });
