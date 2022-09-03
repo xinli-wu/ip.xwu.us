@@ -39,6 +39,9 @@ const theme = extendTheme({
       },
       '.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar': {
         border: '2px solid rgba(0,0,0,0)'
+      },
+      '.chakra-stack.chakra-stack': {
+        whiteSpace: 'break-spaces'
       }
     }),
   },

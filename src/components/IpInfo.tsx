@@ -73,7 +73,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
             <Td isNumeric>
               <HStack style={{ float: 'right' }}>
                 <Text>{fullIpInfo.isp}<br />@{fullIpInfo.org}</Text>
-                <IconButton variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyISPBtnClicked} />
+                <IconButton isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyISPBtnClicked} />
               </HStack>
             </Td>
           </Tr>
@@ -82,7 +82,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
             <Td isNumeric>
               <HStack style={{ float: 'right' }}>
                 <Text>{Latlng}</Text>
-                <IconButton variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLatlngBtnClicked} />
+                <IconButton isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLatlngBtnClicked} />
               </HStack>
             </Td>
           </Tr>
@@ -91,7 +91,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
             <Td isNumeric>
               <HStack style={{ float: 'right' }}>
                 <Text>{Location}</Text>
-                <IconButton variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLocationBtnClicked} />
+                <IconButton isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLocationBtnClicked} />
               </HStack>
             </Td>
           </Tr>
