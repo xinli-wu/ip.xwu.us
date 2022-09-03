@@ -42,7 +42,7 @@ export const Map = ({ ipInfo, onSearchBtnClick }: any) => {
   }
   map.on('dragend', (e: any) => {
     const center = e.target.getCenter();
-    navigate({ pathname: `/${ipDomain}`, search: `?lat=${center.lat}&lng=${center.lng}` }, { replace: false });
+    navigate({ pathname: `/${ipDomain || ''}`, search: `?lat=${center.lat}&lng=${center.lng}` }, { replace: false });
   });
 
 
