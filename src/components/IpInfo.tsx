@@ -1,12 +1,12 @@
-import { CopyIcon, Search2Icon } from '@chakra-ui/icons';
-import { FormControl, FormErrorMessage, HStack, IconButton, Input, InputGroup, Table, TableContainer, Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { CopyIcon, Search2Icon, WarningIcon } from '@chakra-ui/icons';
+import { FormControl, FormErrorMessage, HStack, IconButton, Input, InputGroup, InputLeftElement, Table, TableContainer, Tbody, Td, Text, Tooltip, Tr } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isBrowser } from 'react-device-detect';
 
-export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
+export const IpInfo = ({ ipInfo, error, onSearchBtnClick }: any) => {
   const { full: fullIpInfo } = ipInfo;
   const ISP = `${fullIpInfo.isp} @ ${fullIpInfo.org}`;
   const Latlng = `${fullIpInfo.latitude}, ${fullIpInfo.longitude}`;
@@ -39,7 +39,7 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
       <Table variant='striped'>
         <Tbody>
           <Tr>
-            <Td>IP {fullIpInfo['domain'] ? `(${fullIpInfo.domain})` : ''}</Td>
+            <Td>IP {'domain' in ipInfo && `(${ipInfo.domain})`}</Td>
             <Td>
               <HStack style={{ float: 'right' }}>
                 <Formik
@@ -56,7 +56,13 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick }: any) => {
                         {({ field, form }: any) => (
                           <FormControl isInvalid={form.errors.curIpDomain && form.touched.curIpDomain}>
                             <InputGroup size='sm'>
-                              <Input {...field} ref={inputElement} id='curIpDomain' size='sm' placeholder='Search IP or Domain' style={{ textAlign: 'right' }} />
+                              {error &&
+                                <InputLeftElement
+                                  // pointerEvents='none'
+                                  children={<Tooltip label={error} defaultIsOpen><WarningIcon color='red.300' /></Tooltip>}
+                                />
+                              }
+                              <Input {...field} isInvalid={error} ref={inputElement} id='curIpDomain' size='sm' placeholder='Search IP or Domain' style={{ textAlign: 'right' }} />
                             </InputGroup>
                             <FormErrorMessage>{form.errors.curIpDomain}</FormErrorMessage>
                           </FormControl>
