@@ -1,16 +1,22 @@
 import { CopyIcon, Search2Icon, WarningIcon } from '@chakra-ui/icons';
 import { FormControl, FormErrorMessage, HStack, IconButton, Input, InputGroup, InputLeftElement, Spinner, Table, TableContainer, Tbody, Td, Text, Tooltip, Tr, useToast } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
+import { getIpInfo } from '../utils/getIpInfo';
 
-export const IpInfo = ({ ipInfo, onSearchBtnClick, error, }: any) => {
+export const IpInfo = ({ ipInfo }: any) => {
   const { full: fullIpInfo } = ipInfo.data;
   const ISP = `${fullIpInfo.isp} @ ${fullIpInfo.org}`;
   const Latlng = `${fullIpInfo.latitude}, ${fullIpInfo.longitude}`;
   const Location = `${fullIpInfo.city}, ${fullIpInfo.region}, ${fullIpInfo.country} (${fullIpInfo.country_code})`;
   const inputElement = useRef<HTMLHeadingElement>(null);
   const toast = useToast();
+  const navigate = useNavigate();
+  const [error, setError] = useState<any>({ status: false });
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     if (inputElement.current && isBrowser) {
       inputElement.current.focus();
@@ -51,6 +57,16 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick, error, }: any) => {
     });
   };
 
+  const onSearchBtnClick = async (newIpDomain: string) => {
+    setLoading(true);
+    const { data, status } = await getIpInfo(newIpDomain).catch(e => ({ data: e.response.data, status: e.response.status }));
+    setLoading(false);
+    if (status === 404) { setError({ status: true, message: data.message }); return; }
+
+    setError({ status: false });
+    navigate(`/${newIpDomain}`, { replace: true });
+  };
+
   return (
     <TableContainer>
       <Table variant='striped'>
@@ -74,23 +90,23 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick, error, }: any) => {
                         {({ field, form }: any) => (
                           <FormControl isInvalid={form.errors.curIpDomain && form.touched.curIpDomain} width={'100%'}>
                             <InputGroup size='sm' width={'100%'}>
-                              {error &&
+                              {error.status &&
                                 <InputLeftElement
                                   // pointerEvents='none'
                                   children={
-                                    <Tooltip label={error} defaultIsOpen hasArrow closeOnClick closeOnEsc variant={'solid'}>
+                                    <Tooltip label={error.message} defaultIsOpen hasArrow closeOnClick closeOnEsc variant={'solid'}>
                                       <WarningIcon color='red' />
                                     </Tooltip>
                                   }
                                 />
                               }
-                              <Input {...field} isInvalid={error} ref={inputElement} id='curIpDomain' size='sm' placeholder='Search IP or Domain' style={{ textAlign: 'right' }} />
+                              <Input {...field} isInvalid={error.status} ref={inputElement} id='curIpDomain' size='sm' placeholder='Search IP or Domain' style={{ textAlign: 'right' }} />
                             </InputGroup>
                             <FormErrorMessage>{form.errors.curIpDomain}</FormErrorMessage>
                           </FormControl>
                         )}
                       </Field>
-                      <IconButton isRound variant='ghost' colorScheme='green' type='submit' size='sm' aria-label='Search' icon={ipInfo.loading ? <Spinner size='sm' /> : <Search2Icon />} />
+                      <IconButton isRound variant='ghost' colorScheme='green' type='submit' size='sm' aria-label='Search' icon={loading ? <Spinner size='sm' /> : <Search2Icon />} />
                     </HStack>
                   </Form>
                 </Formik>
@@ -100,27 +116,27 @@ export const IpInfo = ({ ipInfo, onSearchBtnClick, error, }: any) => {
           <Tr>
             <Td>ISP</Td>
             <Td isNumeric>
-              <HStack style={{ float: 'right', filter: error && 'blur(0.15rem)' }}>
+              <HStack style={{ float: 'right', filter: error.status && 'blur(0.15rem)' }}>
                 <Text>{fullIpInfo.isp}<br />@{fullIpInfo.org}</Text>
-                <IconButton disabled={error} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyISPBtnClicked} />
+                <IconButton disabled={error.status} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyISPBtnClicked} />
               </HStack>
             </Td>
           </Tr>
           <Tr>
             <Td>latlng</Td>
             <Td isNumeric>
-              <HStack style={{ float: 'right', filter: error && 'blur(0.15rem)' }}>
+              <HStack style={{ float: 'right', filter: error.status && 'blur(0.15rem)' }}>
                 <Text>{Latlng}</Text>
-                <IconButton disabled={error} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLatlngBtnClicked} />
+                <IconButton disabled={error.status} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLatlngBtnClicked} />
               </HStack>
             </Td>
           </Tr>
           <Tr>
             <Td>Location</Td>
             <Td isNumeric>
-              <HStack style={{ float: 'right', filter: error && 'blur(0.15rem)' }}>
+              <HStack style={{ float: 'right', filter: error.status && 'blur(0.15rem)' }}>
                 <Text>{Location}</Text>
-                <IconButton disabled={error} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLocationBtnClicked} />
+                <IconButton disabled={error.status} isRound variant='ghost' colorScheme='blue' size='sm' aria-label='Copy' icon={<CopyIcon />} onClick={onCopyLocationBtnClicked} />
               </HStack>
             </Td>
           </Tr>

@@ -62,7 +62,7 @@ export const Map = ({ ipInfo, error, onSearchBtnClick }: any) => {
         {isBrowser &&
           <Tooltip direction="bottom" offset={[0, 5]} opacity={1} permanent interactive>
             <Box style={{ minWidth: 480 }}>
-              <IpInfo ipInfo={ipInfo} error={error} onSearchBtnClick={onSearchBtnClick} />
+              <IpInfo ipInfo={ipInfo} error={error} />
             </Box>
           </Tooltip>
         }
@@ -74,21 +74,12 @@ export const Map = ({ ipInfo, error, onSearchBtnClick }: any) => {
 export const MainMapContainer = () => {
   const { ipDomain } = useParams();
   const { colorMode, toggleColorMode } = useColorMode();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [ipInfo, setIpInfo] = useState<any>({ data: undefined, loading: false });
   const [error, setError] = useState<string | undefined>(undefined);
 
   const hasLatlng = searchParams.get('lat') && searchParams.get('lng') ? true : false;
   const [center, setCenter] = useState<number[] | undefined>(hasLatlng ? [Number(searchParams.get('lat')), Number(searchParams.get('lng'))] : undefined);
-
-  const onSearchBtnClick = async (newIpDomain: string) => {
-    const { data, status } = await getIpInfo(newIpDomain).catch(e => ({ data: e.response.data, status: e.response.status }));
-    if (status === 404) { setError(data.message); return; }
-
-    setError(undefined);
-    navigate(`/${newIpDomain}`, { replace: true });
-  };
 
   useEffect(() => {
     if (ipInfo.data && center === undefined) {
@@ -117,7 +108,7 @@ export const MainMapContainer = () => {
             touchZoom={false}
             gestureHandling={true}
           >
-            <Map ipInfo={ipInfo} error={error} onSearchBtnClick={onSearchBtnClick} />
+            <Map ipInfo={ipInfo} error={error} />
             <div className='leaflet-top leaflet-right'>
               <div className="leaflet-control leaflet-bar">
                 <IconButton
@@ -139,7 +130,7 @@ export const MainMapContainer = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <IpInfo ipInfo={ipInfo} error={error} onSearchBtnClick={onSearchBtnClick} />
+              <IpInfo ipInfo={ipInfo} error={error} />
             </Box>}
         </>
       }
