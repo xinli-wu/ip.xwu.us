@@ -47,10 +47,10 @@ export const Map = ({ ipInfo, error, onSearchBtnClick }: any) => {
 
 
   useEffect(() => {
-    if (!map.getBounds().contains(new LatLng(ipInfo.full.latitude, ipInfo.full.longitude))) {
-      map.flyTo(new LatLng(ipInfo.full.latitude, ipInfo.full.longitude), DEFAULT_ZOOM, { duration: 0.75 });
+    if (!map.getBounds().contains(new LatLng(ipInfo.data.full.latitude, ipInfo.data.full.longitude))) {
+      map.flyTo(new LatLng(ipInfo.data.full.latitude, ipInfo.data.full.longitude), DEFAULT_ZOOM, { duration: 0.75 });
     }
-  }, [ipInfo, map]);
+  }, [ipInfo.data, map]);
 
   return (
     <>
@@ -58,10 +58,12 @@ export const Map = ({ ipInfo, error, onSearchBtnClick }: any) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={new LatLng(ipInfo.full.latitude, ipInfo.full.longitude)}>
+      <Marker position={new LatLng(ipInfo.data.full.latitude, ipInfo.data.full.longitude)}>
         {isBrowser &&
           <Tooltip direction="bottom" offset={[0, 5]} opacity={1} permanent interactive>
-            <Box style={{ minWidth: 480 }}><IpInfo ipInfo={ipInfo} error={error} onSearchBtnClick={onSearchBtnClick} /></Box>
+            <Box style={{ minWidth: 480 }}>
+              <IpInfo ipInfo={ipInfo} error={error} onSearchBtnClick={onSearchBtnClick} />
+            </Box>
           </Tooltip>
         }
       </Marker>
@@ -74,36 +76,37 @@ export const MainMapContainer = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [ipInfo, setIpInfo] = useState<any>(undefined);
+  const [ipInfo, setIpInfo] = useState<any>({ data: undefined, loading: false });
   const [error, setError] = useState<string | undefined>(undefined);
 
   const hasLatlng = searchParams.get('lat') && searchParams.get('lng') ? true : false;
   const [center, setCenter] = useState<number[] | undefined>(hasLatlng ? [Number(searchParams.get('lat')), Number(searchParams.get('lng'))] : undefined);
 
   const onSearchBtnClick = async (newIpDomain: string) => {
-    const { status, statusText } = await getIpInfo(newIpDomain).catch(e => ({ data: null, status: e.response.status, statusText: e.response.statusText }));
-    if (status === 404) { setError(statusText); return; }
+    const { data, status } = await getIpInfo(newIpDomain).catch(e => ({ data: e.response.data, status: e.response.status }));
+    if (status === 404) { setError(data.message); return; }
 
     setError(undefined);
     navigate(`/${newIpDomain}`, { replace: true });
   };
 
   useEffect(() => {
-    if (ipInfo && center === undefined) {
-      setCenter([ipInfo?.full?.latitude, ipInfo?.full?.longitude]);
+    if (ipInfo.data && center === undefined) {
+      setCenter([ipInfo.data?.full?.latitude, ipInfo.data?.full?.longitude]);
     }
-  }, [ipInfo, center]);
+  }, [ipInfo.data, center]);
 
   useEffect(() => {
     (async () => {
+      setIpInfo({ data: undefined, loading: true });
       const { data } = await getIpInfo(ipDomain).catch(e => ({ data: null, status: e.response.status, statusText: e.response.statusText }));
-      setIpInfo(data); setError(undefined);
+      setIpInfo({ data, loading: false }); setError(undefined);
     })();
   }, [ipDomain]);
 
   return (
     <>
-      {center && ipInfo?.ip &&
+      {center && ipInfo.data?.ip &&
         <>
           <MapContainer
             style={{ height: isBrowser ? '100vh' : '50vh' }}

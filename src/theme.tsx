@@ -2,6 +2,7 @@
 
 // 1. import `extendTheme` function
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 
 // 2. Add your color mode config
 const config: ThemeConfig = {
@@ -30,18 +31,21 @@ const theme = extendTheme({
         background: 'var(--chakra-colors-chakra-body-bg)',
         color: 'unset',
         _hover: {
-          background: props.colorMode === 'dark' ? 'var(--chakra-colors-gray-700)' : 'var(--chakra-colors-gray-100)'
+          background: mode('var(--chakra-colors-gray-100)', 'var(--chakra-colors-gray-700)')(props)
         }
       },
-      '.chakra-alert!': {
-        background: props.colorMode === 'dark' ? 'var(--chakra-colors-green-200)' : 'var(--chakra-colors-green-500)',
-        color: props.colorMode === 'dark' ? 'var(--chakra-colors-gray-900)' : 'var(--chakra-colors-white)'
-      },
+      // '.chakra-alert!': {
+      //   background: mode('var(--chakra-colors-green-500)', 'var(--chakra-colors-green-200)')(props),
+      //   color: mode('var(--chakra-colors-white)', 'var(--chakra-colors-gray-900)')(props),
+      // },
       '.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar': {
         border: '2px solid rgba(0,0,0,0)'
       },
       '.chakra-stack.chakra-stack': {
         whiteSpace: 'break-spaces'
+      },
+      'div[id^=tooltip]': {
+        color: 'var(--chakra-colors-chakra-body-bg)'
       }
     }),
   },
