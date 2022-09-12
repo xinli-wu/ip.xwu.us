@@ -43,9 +43,6 @@ const theme = extendTheme({
       },
       '.chakra-stack.chakra-stack': {
         whiteSpace: 'break-spaces'
-      },
-      'div[id^=tooltip]': {
-        color: 'var(--chakra-colors-chakra-body-bg)'
       }
     }),
   },
