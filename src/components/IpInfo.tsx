@@ -123,7 +123,7 @@ export const IpInfo = ({ ipInfo }: any) => {
             </Td>
           </Tr>
           <Tr>
-            <Td>latlng</Td>
+            <Td>LatLng</Td>
             <Td isNumeric>
               <HStack style={{ float: 'right', filter: error.status && 'blur(0.15rem)' }}>
                 <Text>{Latlng}</Text>
