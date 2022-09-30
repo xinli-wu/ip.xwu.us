@@ -14,7 +14,6 @@ export const Map = ({ ipInfo, error }: any) => {
   const navigate = useNavigate();
 
   const map = useMap();
-  console.log({ map });
   if (!('gestureHandling' in map)) {
     map.addHandler("gestureHandling", GestureHandling);
   }
