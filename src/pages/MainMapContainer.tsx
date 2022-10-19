@@ -34,6 +34,8 @@ export const MainMapContainer = () => {
   const [ipInfo, setIpInfo] = useState<any>({ data: undefined, loading: false });
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const [urlIpDomain] = useState<string | undefined>(ipDomain);
+
   const hasLatlng = searchParams.get('lat') && searchParams.get('lng') ? true : false;
   const [center, setCenter] = useState<number[] | undefined>(hasLatlng ? [Number(searchParams.get('lat')), Number(searchParams.get('lng'))] : undefined);
 
@@ -46,10 +48,10 @@ export const MainMapContainer = () => {
   useEffect(() => {
     (async () => {
       setIpInfo({ data: undefined, loading: true });
-      const { data } = await getIpInfo(ipDomain).catch(e => ({ data: null, status: e.response.status, statusText: e.response.statusText }));
+      const { data } = await getIpInfo(urlIpDomain).catch(e => ({ data: null, status: e.response.status, statusText: e.response.statusText }));
       setIpInfo({ data, loading: false }); setError(undefined);
     })();
-  }, [ipDomain]);
+  }, [urlIpDomain]);
 
   return (
     <>
@@ -64,7 +66,7 @@ export const MainMapContainer = () => {
             touchZoom={true}
             gestureHandling={true}
           >
-            <Map ipInfo={ipInfo} error={error} />
+            <Map ipInfo={ipInfo} setIpInfo={setIpInfo} error={error} />
             <div className='leaflet-top leaflet-right'>
               <div className="leaflet-control leaflet-bar">
                 <IconButton
@@ -86,7 +88,7 @@ export const MainMapContainer = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <IpInfo ipInfo={ipInfo} error={error} />
+              <IpInfo ipInfo={ipInfo} setIpInfo={setIpInfo} error={error} />
             </Box>
           }
         </>

@@ -3,17 +3,15 @@ import { FormControl, FormErrorMessage, HStack, IconButton, Input, InputGroup, I
 import { Field, Form, Formik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
-import { useNavigate } from 'react-router-dom';
 import { getIpInfo } from '../utils/getIpInfo';
 
-export const IpInfo = ({ ipInfo }: any) => {
+export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const { full: fullIpInfo } = ipInfo.data;
   const ISP = `${fullIpInfo.isp} @ ${fullIpInfo.org}`;
   const Latlng = `${fullIpInfo.latitude}, ${fullIpInfo.longitude}`;
   const Location = `${fullIpInfo.city}, ${fullIpInfo.region}, ${fullIpInfo.country} (${fullIpInfo.country_code})`;
   const inputElement = useRef<HTMLHeadingElement>(null);
   const toast = useToast();
-  const navigate = useNavigate();
   const [error, setError] = useState<any>({ status: false });
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -61,10 +59,12 @@ export const IpInfo = ({ ipInfo }: any) => {
     setLoading(true);
     const { data, status } = await getIpInfo(newIpDomain).catch(e => ({ data: e.response.data, status: e.response.status }));
     setLoading(false);
+
     if (status === 404) { setError({ status: true, message: data.message }); return; }
 
+    setIpInfo({ data, loading: false });
     setError({ status: false });
-    navigate(`/${newIpDomain}`, { replace: true });
+    window.history.replaceState(null, `/${newIpDomain}`, `/${newIpDomain}`);
   };
 
   return (
