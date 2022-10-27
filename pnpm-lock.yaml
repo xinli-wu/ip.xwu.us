@@ -6,6 +6,7 @@ overrides:
 specifiers:
   '@chakra-ui/icons': ^2.0.11
   '@chakra-ui/react': ^2.3.6
+  '@chakra-ui/theme-tools': ^2.0.12
   '@emotion/react': ^11.10.5
   '@emotion/styled': ^11.10.5
   '@testing-library/jest-dom': ^5.16.5
@@ -34,6 +35,7 @@ specifiers:
 dependencies:
   '@chakra-ui/icons': 2.0.11_e5d2utcogkjxxdp5h2rcoxuz2u
   '@chakra-ui/react': 2.3.6_vleof464akfaudmjsxktw7bena
+  '@chakra-ui/theme-tools': 2.0.12_kzevwk2hxgy6fnrjqv25jdmqp4
   '@emotion/react': 11.10.5_5ihuxrpe4zse4p4tf6ubxcyzuu
   '@emotion/styled': 11.10.5_z7x6wqqd37fzu777gq3gq2bxru
   axios: 1.1.3
