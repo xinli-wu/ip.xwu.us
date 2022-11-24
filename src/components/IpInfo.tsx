@@ -24,7 +24,7 @@ export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const onCopyISPBtnClicked = () => {
     navigator.clipboard.writeText(ISP);
     toast({
-      title: 'ISP coppied',
+      title: 'ISP copied',
       status: 'success',
       position: 'top',
       duration: 3000,
@@ -36,7 +36,7 @@ export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const onCopyLatlngBtnClicked = () => {
     navigator.clipboard.writeText(Latlng);
     toast({
-      title: 'Latlng coppied',
+      title: 'Latlng copied',
       status: 'success',
       position: 'top',
       duration: 3000,
@@ -47,7 +47,7 @@ export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const onCopyLocationBtnClicked = () => {
     navigator.clipboard.writeText(Location);
     toast({
-      title: 'Location coppied',
+      title: 'Location copied',
       status: 'success',
       position: 'top',
       duration: 3000,
