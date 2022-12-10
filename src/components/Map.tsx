@@ -22,7 +22,6 @@ export const Map = ({ ipInfo, setIpInfo, error }: any) => {
     map.off('dragend');
   }
   map.on('dragend', (e: any) => {
-    console.log({ ipDomain });
     const center = e.target.getCenter();
     navigate({ pathname: `/${ipDomain || ''}`, search: `?lat=${center.lat}&lng=${center.lng}` }, { replace: true });
   });
