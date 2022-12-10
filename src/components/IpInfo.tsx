@@ -36,7 +36,7 @@ export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const onCopyLatlngBtnClicked = () => {
     navigator.clipboard.writeText(Latlng);
     toast({
-      title: 'Latlng copied',
+      title: 'LatLng copied',
       status: 'success',
       position: 'top',
       duration: 3000,
