@@ -24,7 +24,7 @@ export const IpInfo = ({ ipInfo, setIpInfo }: any) => {
   const onCopyISPBtnClicked = () => {
     navigator.clipboard.writeText(ISP);
     toast({
-      title: 'ISP copied 👍',
+      title: 'ISP copied 👐',
       status: 'success',
       position: 'top',
       duration: 3000,
