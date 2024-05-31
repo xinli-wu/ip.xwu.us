@@ -6,20 +6,20 @@
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/theme-tools": "^2.1.2",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "axios": "^1.6.3",
-    "formik": "^2.4.5",
-    "framer-motion": "^10.16.16",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "axios": "^1.7.2",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.2.10",
     "leaflet": "^1.9.4",
     "leaflet-gesture-handling": "^1.2.2",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-device-detect": "^2.2.3",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "react-router-dom": "^6.21.1",
+    "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
-    "web-vitals": "^3.5.1"
+    "web-vitals": "^3.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,16 +46,17 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.6",
-    "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.1",
-    "@types/jest": "^29.5.11",
-    "@types/leaflet": "^1.9.8",
-    "@types/node": "^20.10.5",
-    "@types/react": "^18.2.46",
-    "@types/react-dom": "^18.2.18",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.12",
+    "@types/leaflet": "^1.9.12",
+    "@types/node": "^20.12.13",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8",
     "jest": "^29.7.0",
-    "typescript": "^4"
+    "typescript": "^4.9.5"
   },
   "pnpm": {
     "overrides": {

@@ -1,7 +1,7 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Box, IconButton, useColorMode } from '@chakra-ui/react';
 import * as L from 'leaflet';
-import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
@@ -22,22 +22,25 @@ const DefaultIcon = L.divIcon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// const isLatlng = (latlng: any[] | undefined) => {
-//   if (!latlng) return false;
-//   return typeof latlng[0] === 'number' && typeof latlng[1] === 'number' && isFinite(latlng[0]) && Math.abs(latlng[0]) <= 90 && isFinite(latlng[1]) && Math.abs(latlng[1]) <= 180;
-// };
-
 export const MainMapContainer = () => {
   const { ipDomain } = useParams();
   const { colorMode, toggleColorMode } = useColorMode();
   const [searchParams] = useSearchParams();
-  const [ipInfo, setIpInfo] = useState<any>({ data: undefined, loading: false });
+  const [ipInfo, setIpInfo] = useState<any>({
+    data: undefined,
+    loading: false,
+  });
   const [error, setError] = useState<string | undefined>(undefined);
 
   const [urlIpDomain] = useState<string | undefined>(ipDomain);
 
-  const hasLatlng = searchParams.get('lat') && searchParams.get('lng') ? true : false;
-  const [center, setCenter] = useState<number[] | undefined>(hasLatlng ? [Number(searchParams.get('lat')), Number(searchParams.get('lng'))] : undefined);
+  const hasLatlng =
+    searchParams.get('lat') && searchParams.get('lng') ? true : false;
+  const [center, setCenter] = useState<number[] | undefined>(
+    hasLatlng
+      ? [Number(searchParams.get('lat')), Number(searchParams.get('lng'))]
+      : undefined
+  );
 
   useEffect(() => {
     if (ipInfo.data && center === undefined) {
@@ -48,14 +51,19 @@ export const MainMapContainer = () => {
   useEffect(() => {
     (async () => {
       setIpInfo({ data: undefined, loading: true });
-      const { data } = await getIpInfo(urlIpDomain).catch(e => ({ data: null, status: e.response.status, statusText: e.response.statusText }));
-      setIpInfo({ data, loading: false }); setError(undefined);
+      const { data } = await getIpInfo(urlIpDomain).catch((e) => ({
+        data: null,
+        status: e.response.status,
+        statusText: e.response.statusText,
+      }));
+      setIpInfo({ data, loading: false });
+      setError(undefined);
     })();
   }, [urlIpDomain]);
 
   return (
     <>
-      {center && ipInfo.data?.ip &&
+      {center && ipInfo.data?.ip && (
         <>
           <MapContainer
             style={{ height: isBrowser ? '100vh' : '50vh' }}
@@ -68,7 +76,7 @@ export const MainMapContainer = () => {
           >
             <Map ipInfo={ipInfo} setIpInfo={setIpInfo} error={error} />
             <div className='leaflet-top leaflet-right'>
-              <div className="leaflet-control leaflet-bar">
+              <div className='leaflet-control leaflet-bar'>
                 <IconButton
                   onClick={toggleColorMode}
                   isRound
@@ -78,7 +86,7 @@ export const MainMapContainer = () => {
               </div>
             </div>
           </MapContainer>
-          {!isBrowser &&
+          {!isBrowser && (
             <Box
               style={{
                 margin: 2,
@@ -86,13 +94,14 @@ export const MainMapContainer = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                alignItems: 'center'
-              }}>
+                alignItems: 'center',
+              }}
+            >
               <IpInfo ipInfo={ipInfo} setIpInfo={setIpInfo} error={error} />
             </Box>
-          }
+          )}
         </>
-      }
+      )}
     </>
   );
 };
